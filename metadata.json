@@ -1,0 +1,27 @@
+{
+  "name": "freimer-timeserver",
+  "version": "0.1.2",
+  "author": "Frank Reimer",
+  "summary": "This Puppet module configures NTP settings depending on whether the machine is physical or virtual. Furthermore this moule makes sure that NTP will be installed and configured on RHEL 6 and chrony on RHEL 7 machines.",
+  "license": "Apache 2.0",
+  "source": "https://github.com/hambuergaer/puppet-timeserver",
+  "project_page": "https://github.com/hambuergaer/puppet-timeserver",
+  "issues_url": "https://github.com/hambuergaer/puppet-timeserver/issues",
+  "operatingsystem_support": [
+    {
+      "operatingsystem": "RedHat",
+      "operatingsystemrelease": [
+        "6",
+        "7"
+      ]
+    },
+    {
+      "operatingsystem": "CentOS",
+      "operatingsystemrelease": [
+        "6",
+        "7"
+      ]
+    }
+  ]
+}
+
