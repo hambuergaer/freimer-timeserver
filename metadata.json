@@ -1,6 +1,6 @@
 {
   "name": "freimer-timeserver",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "author": "Frank Reimer",
   "summary": "This Puppet module configures NTP client on RHEL/CentOS 6/7 for time synchronization.",
   "license": "GPL v.3+",

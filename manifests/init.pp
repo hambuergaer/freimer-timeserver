@@ -8,8 +8,11 @@ if $client {
 	include timeserver::client
 	}
 
-else {
-	notify {"This will be an NTP server":}
+elsif $server {
+	include timeserver::server
 	}
 
+else {
+	notify {"Nothiong to do":}
+	}
 }

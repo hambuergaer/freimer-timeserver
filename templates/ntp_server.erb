@@ -1,0 +1,24 @@
+#################################################################
+#			*** ATTENTION ***
+#
+# This file is managed by Puppet. Any manual modification will
+# be lost after the next Puppet run.
+#
+#################################################################
+
+tinker panic 0
+driftfile /var/lib/ntp/drift
+restrict default kod nomodify notrap nopeer noquery
+restrict -6 default kod nomodify notrap nopeer noquery
+restrict 127.0.0.1
+restrict -6 ::1
+restrict 10.0.0.0 mask 255.0.0.0 nomodify notrap
+<% [@ntpServers].flatten.each do |server| -%>
+server <%= server %> iburst
+<% end -%>
+<% if @virtual != "vmware" -%>
+server 127.127.1.0 # local clock
+fudge 127.127.1.0 stratum 10
+<% end -%>
+includefile /etc/ntp/crypto/pw
+keys /etc/ntp/keys
