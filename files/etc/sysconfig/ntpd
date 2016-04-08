@@ -1,0 +1,16 @@
+#################################################################
+##                       *** ATTENTION ***
+##
+## This file is managed by Puppet. Any manual modification will
+## be lost after the next Puppet run.
+##
+##################################################################
+
+# Drop root to id 'ntp:ntp' by default.
+OPTIONS="-u ntp:ntp -p /var/run/ntpd.pid -x -g"
+
+# Set to 'yes' to sync hw clock after successful ntpdate
+SYNC_HWCLOCK=no
+
+# Additional options for ntpdate
+NTPDATE_OPTIONS=""

@@ -1,60 +1,15 @@
-# Documentation TBD
-#
 class timeserver (
-$ntpServers = ['de.pool.ntp.org'] )
-{
-#  if $operatingsystem == 'RedHat' and $operatingsystemmajrelease == 7 {
-#    package { 'ntp':
-#      ensure => 'purged',
-#    }
-#    package { 'chrony':
-#      ensure => 'installed',
-#    }
-#    service { 'ntpd':
-#      ensure => 'stopped',
-#      enable => false,
-#    }
-#    service { 'chronyd':
-#      ensure     => 'running',
-#      enable     => true,
-#      require    => Package['chrony'],
-#      hasstatus  => true,
-#      hasrestart => true,
-#    }
-#    file { '/etc/chrony.conf':
-#      ensure  => file,
-#      content => template('timeserver/chrony.erb'),
-#      require => Package['chrony'],
-#      owner   => 'root',
-#      group   => 'root',
-#      mode    => '0644',
-#      notify  => Service['chronyd'],
-#    }
-#    
-#    
-#  }
+	$client=$timeserver::params::client,
+	$server=$timeserver::params::server,
+	$ntpServers=$timeserver::params::ntpServers,
+) inherits timeserver::params {
 
-  #if $operatingsystem == 'RedHat' and $operatingsystemmajrelease == 6 {
-  if $operatingsystem == 'RedHat' or  $operatingsystem == 'CentOS'{
-    package { 'ntp':
-      ensure => installed,
-    }
+if $client {
+	include timeserver::client
+	}
 
-    file { '/etc/ntp.conf':
-      ensure  => file,
-      content => template('timeserver/ntp.erb'),
-      require => Package['ntp'],
-      owner   => 'root',
-      group   => 'root',
-      mode    => '0644',
-      notify  => Service['ntpd'],
-    }
+else {
+	notify {"This will be an NTP server":}
+	}
 
-    service { 'ntpd':
-      ensure     => 'running',
-      enable     => true,
-      hasstatus  => true,
-      hasrestart => true,
-    }
-  }
 }
