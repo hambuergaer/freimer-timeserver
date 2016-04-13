@@ -24,7 +24,7 @@ if $client {
 	file { $configfile:
 		ensure  => file,
                 content => template('timeserver/ntp_client.erb'),
-                require => Service[$service],
+                require => Package[$package],
                 owner   => 'root',
                 group   => 'root',
                 mode    => '0644',
@@ -36,7 +36,7 @@ if $client {
                 owner   => root,
                 group   => root,
                 mode    => '0644',
-                require => Service[$service],
+                require => Package[$package],
                 notify  => Service[$service]
         	}
 	}
@@ -45,7 +45,7 @@ elsif $server {
 	file { '/etc/ntp.conf':
                 ensure  => file,
                 content => template('timeserver/ntp_server.erb'),
-                require => Service[$service],
+                require => Package[$package],
                 owner   => 'root',
                 group   => 'root',
                 mode    => '0644',
