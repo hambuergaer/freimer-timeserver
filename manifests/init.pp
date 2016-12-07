@@ -1,59 +1,20 @@
 class timeserver (
-	$client=true,
-	$server=false,
-	$ntpClientTimetickers='pool.ntp.org',
-	$ntpServerTimetickers='pool.ntp.org',
-	$package='ntp',
-	$service='ntpd',
-	$configfile='/etc/ntp.conf'
-) {
+	$client=$timeserver::params::client,
+	$server=$timeserver::params::server,
+	$ntpClientTimetickers=$timeserver::params::ntpClientTimetickers,
+	$ntpServerTimetickers=$timeserver::params::ntpServerTimetickers,
+	$package=$timeserver::params::package,
+	$service=$timeserver::params::service,
+	$configfile=$timeserver::params::configfile,
+	$ntpd_configfile = $timeserver::params::ntpd_configfile,
+	$options_default = $timeserver::params::options_default,
+	$options_extras = $timeserver::params::options_extras,
+	$sync_hw_clock = $timeserver::params::sync_hw_clock,
+	$ntpdate_options = $timeserver::params::ntpdate_options
+) inherits timeserver::params {
 
-package { $package:
-        ensure => installed,
-        }
+anchor { 'timeserver::begin': } ->
+  class { '::timeserver::config': } ->
+anchor { 'timeserver::end': }
 
-service { $service:
-        ensure     => 'running',
-        enable     => true,
-        hasstatus  => true,
-        hasrestart => true,
-	require    => Package[$package]
-        }
-
-if $client {
-	file { $configfile:
-		ensure  => file,
-                content => template('timeserver/ntp_client.erb'),
-                require => Package[$package],
-                owner   => 'root',
-                group   => 'root',
-                mode    => '0644',
-                notify  => Service[$service]
-        	}
-	
-	file { '/etc/sysconfig/ntpd':
-                source  => ['puppet:///modules/timeserver/etc/sysconfig/ntpd'],
-                owner   => root,
-                group   => root,
-                mode    => '0644',
-                require => Package[$package],
-                notify  => Service[$service]
-        	}
-	}
-
-elsif $server {
-	file { '/etc/ntp.conf':
-                ensure  => file,
-                content => template('timeserver/ntp_server.erb'),
-                require => Package[$package],
-                owner   => 'root',
-                group   => 'root',
-                mode    => '0644',
-                notify  => Service[$service]
-        	}
-	}
-
-else {
-	notify {"Nothiong to do":}
-	}
 }

@@ -13,7 +13,7 @@ restrict -6 default kod nomodify notrap nopeer noquery
 restrict 127.0.0.1
 restrict -6 ::1
 restrict 10.0.0.0 mask 255.0.0.0 nomodify notrap
-<% [@ntpServers].flatten.each do |server| -%>
+<% [@ntpServerTimetickers].flatten.each do |server| -%>
 server <%= server %> iburst
 <% end -%>
 <% if @virtual != "vmware" -%>
